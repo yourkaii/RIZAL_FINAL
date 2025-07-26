@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIZAL: THE LEGEND</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a1428 0%, #1e2328 50%, #3c3c41 100%);
+            color: #cdbe91;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(200, 170, 110, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(100, 150, 200, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(10, 20, 40, 0.9) 0%, rgba(30, 35, 40, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 100;
+            border-right: 2px solid rgba(200, 170, 110, 0.3);
+        }
+
+        .sidebar-icon {
+            width: 50px;
+            height: 50px;
+            margin: 15px 0;
+            background: rgba(200, 170, 110, 0.2);
+            border: 2px solid rgba(200, 170, 110, 0.5);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+        }
+
+        .sidebar-icon:hover {
+            background: rgba(200, 170, 110, 0.4);
+            border-color: #cdbe91;
+            transform: scale(1.1);
+        }
+
+        .main-container {
+            margin-left: 80px;
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #cdbe91 0%, #f0e6d2 50%, #cdbe91 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(200, 170, 110, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(200, 170, 110, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .play-button {
+            background: linear-gradient(135deg, #cdbe91 0%, #f0e6d2 50%, #cdbe91 100%);
+            color: #1e2328;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(200, 170, 110, 0.7);
+        }
+
+        .play-button::before {
+            content: '▶';
+            margin-right: 10px;
+        }
+
+        .hero-description {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            text-align: center;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(200, 170, 110, 0.9);
+        }
+
+        .abilities-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .ability-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(200, 170, 110, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ability-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(200, 170, 110, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .ability-card:hover {
+            border-color: #cdbe91;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(200, 170, 110, 0.3);
+        }
+
+        .ability-card:hover::before {
+            left: 100%;
+        }
+
+        .ability-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #cdbe91, #f0e6d2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #1e2328;
+            margin-bottom: 15px;
+        }
+
+        .ability-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #cdbe91;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .ability-description {
+            color: rgba(200, 170, 110, 0.8);
+            line-height: 1.5;
+        }
+
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 50px 0;
+        }
+
+        .video-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(200, 170, 110, 0.4);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            color: #cdbe91;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .video-duration {
+            color: rgba(200, 170, 110, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .navigation-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .nav-tab {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(200, 170, 110, 0.3);
+            color: #cdbe91;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: rgba(200, 170, 110, 0.2);
+            border-color: #cdbe91;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #cdbe91;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #cdbe91;
+        }
+
+        .stat-label {
+            color: rgba(200, 170, 110, 0.8);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .ability-link {
+            margin-top: 10px;
+            color: #cdbe91;
+            font-size: 0.9rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .ability-card:hover .ability-link {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e2328 0%, #3c3c41 100%);
+            margin: 5% auto;
+            padding: 40px;
+            border: 2px solid #cdbe91;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 800px;
+            color: #cdbe91;
+        }
+
+        .close {
+            color: #cdbe91;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #f0e6d2;
+        }
+
+        .modal-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #cdbe91 0%, #f0e6d2 50%, #cdbe91 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-body {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .modal-section {
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            .main-container {
+                padding: 20px;
+            }
+            .abilities-section {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+            .modal-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <div class="sidebar">
+        <div class="sidebar-icon" onclick="showSection('overview')" title="Overview">🏠</div>
+        <div class="sidebar-icon" onclick="showSection('abilities')" title="Abilities">⚔️</div>
+        <div class="sidebar-icon" onclick="showSection('timeline')" title="Timeline">📅</div>
+        <div class="sidebar-icon" onclick="showSection('legacy')" title="Legacy">👑</div>
+        <div class="sidebar-icon" onclick="showSection('gallery')" title="Gallery">🖼️</div>
+    </div>
+
+    <div class="main-container">
+        <div class="header">
+            <h1 class="title">RIZAL</h1>
+            <p class="subtitle">THE LEGEND</p>
+            <button class="play-button" onclick="startJourney()">BEGIN JOURNEY</button>
+        </div>
+
+        <div id="overview" class="content-section active">
+            <div class="hero-description">
+                Master the pen and the mind. Dr. José Rizal, the ultimate intellectual warrior, 
+                wielded words as weapons against oppression. Through his legendary novels and 
+                unwavering dedication to reform, he awakened a nation and sparked the flame of 
+                Filipino consciousness. Discover the epic journey of the Philippines' greatest hero.
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">35</div>
+                    <div class="stat-label">Years of Life</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">22</div>
+                    <div class="stat-label">Languages Mastered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Epic Novels</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Legacy Impact</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="abilities" class="content-section">
+            <div class="abilities-section">
+                <div class="ability-card" onclick="openAbilityDetails('noli')">
+                    <div class="ability-icon">📚</div>
+                    <div class="ability-title">Noli Me Tangere</div>
+                    <div class="ability-description">
+                        Ultimate ability that exposed the corruption of Spanish colonial rule. 
+                        This legendary novel dealt massive damage to the colonial system and 
+                        awakened Filipino national consciousness.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openAbilityDetails('fili')">
+                    <div class="ability-icon">⚡</div>
+                    <div class="ability-title">El Filibusterismo</div>
+                    <div class="ability-description">
+                        The devastating sequel that showed the path of revolution. This ability
+                        revealed the darker consequences of oppression and inspired the fight
+                        for freedom.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openAbilityDetails('polyglot')">
+                    <div class="ability-icon">🌍</div>
+                    <div class="ability-title">Polyglot Mastery</div>
+                    <div class="ability-description">
+                        Passive ability allowing communication in 22+ languages. This skill
+                        enabled global networking and made Rizal a citizen of the world,
+                        gathering allies across continents.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openAbilityDetails('reform')">
+                    <div class="ability-icon">🎯</div>
+                    <div class="ability-title">Peaceful Reform</div>
+                    <div class="ability-description">
+                        Strategic approach emphasizing education and enlightenment over
+                        violence. This philosophy influenced generations and proved that
+                        the pen is mightier than the sword.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="content-section">
+            <div class="abilities-section">
+                <div class="ability-card" onclick="openTimelineDetails('spawn')">
+                    <div class="ability-icon">🌟</div>
+                    <div class="ability-title">1861 - The Spawn</div>
+                    <div class="ability-description">
+                        Born in Calamba, Laguna. The legendary hero enters the game with
+                        exceptional intelligence and artistic talents.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openTimelineDetails('quest')">
+                    <div class="ability-icon">🎓</div>
+                    <div class="ability-title">1882 - European Quest</div>
+                    <div class="ability-description">
+                        Traveled to Spain for higher education. Unlocked advanced knowledge
+                        in medicine, philosophy, and literature.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openTimelineDetails('release')">
+                    <div class="ability-icon">✍️</div>
+                    <div class="ability-title">1887 - First Epic Release</div>
+                    <div class="ability-description">
+                        Published Noli Me Tangere in Berlin. This legendary item caused
+                        massive disruption in the Philippine colonial system.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openTimelineDetails('final')">
+                    <div class="ability-icon">💀</div>
+                    <div class="ability-title">1896 - Final Boss Battle</div>
+                    <div class="ability-description">
+                        Executed in Bagumbayan (now Rizal Park). His sacrifice triggered
+                        the Philippine Revolution and eternal legacy buff.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="legacy" class="content-section">
+            <div class="hero-description">
+                The Legend Lives On: How Rizal's Impact Continues to Shape Modern Philippines
+            </div>
+            
+            <div class="abilities-section">
+                <div class="ability-card" onclick="openLegacyDetails('education')">
+                    <div class="ability-icon">📖</div>
+                    <div class="ability-title">Educational Influence</div>
+                    <div class="ability-description">
+                        Rizal's emphasis on education as the key to progress continues to
+                        inspire Filipino students and educators worldwide.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openLegacyDetails('identity')">
+                    <div class="ability-icon">🏛️</div>
+                    <div class="ability-title">National Identity</div>
+                    <div class="ability-description">
+                        His novels and writings shaped Filipino national consciousness
+                        and continue to define what it means to be Filipino.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+
+                <div class="ability-card" onclick="openLegacyDetails('justice')">
+                    <div class="ability-icon">✊</div>
+                    <div class="ability-title">Social Justice</div>
+                    <div class="ability-description">
+                        Rizal's fight against oppression inspires modern movements for
+                        human rights and social justice across the globe.
+                        <div class="ability-link">Click to explore →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="gallery" class="content-section">
+            <div class="video-gallery">
+                <div class="video-card" onclick="openVideoDetails('noli-explained')">
+                    <div class="video-thumbnail">📚</div>
+                    <div class="video-info">
+                        <div class="video-title">Noli Me Tangere Explained</div>
+                        <div class="video-duration">15:30</div>
+                    </div>
+                </div>
+
+                <div class="video-card" onclick="openVideoDetails('european-adventures')">
+                    <div class="video-thumbnail">🌍</div>
+                    <div class="video-info">
+                        <div class="video-title">Rizal's European Adventures</div>
+                        <div class="video-duration">12:45</div>
+                    </div>
+                </div>
+
+                <div class="video-card" onclick="openVideoDetails('final-sacrifice')">
+                    <div class="video-thumbnail">💔</div>
+                    <div class="video-info">
+                        <div class="video-title">The Final Sacrifice</div>
+                        <div class="video-duration">18:20</div>
+                    </div>
+                </div>
+
+                <div class="video-card" onclick="openVideoDetails('legend-legacy')">
+                    <div class="video-thumbnail">👑</div>
+                    <div class="video-info">
+                        <div class="video-title">Legacy of a Legend</div>
+                        <div class="video-duration">20:15</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for ability details -->
+    <div id="abilityModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        function openAbilityDetails(ability) {
+            const modal = document.getElementById('abilityModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            let content = '';
+            
+            switch(ability) {
+                case 'noli':
+                    content = `
+                        <h2 class="modal-title">📚 Noli Me Tangere</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Ultimate Ability</h3>
+                                <p>Published in 1887 in Berlin, "Noli Me Tangere" (Touch Me Not) was Rizal's first and most powerful literary weapon against Spanish colonial oppression. This masterpiece exposed the corruption, abuse, and injustices within Philippine society under Spanish rule.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Key Characters & Impact</h3>
+                                <p><strong>Crisostomo Ibarra:</strong> The idealistic protagonist representing Rizal himself<br>
+                                <strong>Maria Clara:</strong> Symbol of the Filipina woman under colonial influence<br>
+                                <strong>Padre Damaso:</strong> The corrupt friar representing religious oppression</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Historical Significance</h3>
+                                <p>The novel was immediately banned by Spanish authorities, proving its effectiveness. It awakened Filipino consciousness about their situation and inspired the reform movement. Many consider it the spark that ignited the Philippine Revolution.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Modern Relevance</h3>
+                                <p>Today, the themes of corruption, social inequality, and the struggle for justice remain relevant. The novel continues to be studied and referenced in discussions about Philippine society and governance.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'fili':
+                    content = `
+                        <h2 class="modal-title">⚡ El Filibusterismo</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Devastating Sequel</h3>
+                                <p>Published in 1891, "El Filibusterismo" (The Reign of Greed) served as the darker, more revolutionary sequel to Noli Me Tangere. This novel showed the consequences of failed reforms and the path toward revolution.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>The Transformation</h3>
+                                <p><strong>Simoun:</strong> Crisostomo Ibarra returns as a wealthy jeweler plotting revolution<br>
+                                <strong>Basilio:</strong> Now a medical student, represents the new generation<br>
+                                <strong>Isagani:</strong> The passionate student activist</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Revolutionary Themes</h3>
+                                <p>Unlike its predecessor, El Fili explored themes of violent revolution, revenge, and the moral complexities of fighting oppression. It showed both the necessity and the dangers of radical change.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Legacy</h3>
+                                <p>This novel influenced the actual Philippine Revolution of 1896. Its themes of sacrifice, moral courage, and the price of freedom continue to resonate with modern readers and activists.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'polyglot':
+                    content = `
+                        <h2 class="modal-title">🌍 Polyglot Mastery</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Ultimate Communication Skill</h3>
+                                <p>Rizal's mastery of 22+ languages made him a true citizen of the world. This incredible ability allowed him to communicate with scholars, activists, and intellectuals across different cultures and nations.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Languages Mastered</h3>
+                                <p><strong>European:</strong> Spanish, English, French, German, Italian, Portuguese, Russian<br>
+                                <strong>Classical:</strong> Latin, Greek, Hebrew<br>
+                                <strong>Asian:</strong> Tagalog, Bisayan, Ilokano, Subanon, Chinese, Japanese, Arabic, Sanskrit, Malay<br>
+                                <strong>Others:</strong> Dutch, Catalan, Swedish</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Strategic Advantage</h3>
+                                <p>This linguistic prowess allowed Rizal to study in different European universities, conduct research in various libraries, and build international networks. He could read original texts in their native languages and communicate his ideas globally.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Modern Relevance</h3>
+                                <p>In today's globalized world, Rizal's example shows the power of language learning for cross-cultural understanding, international cooperation, and breaking down barriers between peoples.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'reform':
+                    content = `
+                        <h2 class="modal-title">🎯 Peaceful Reform</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Strategic Philosophy</h3>
+                                <p>Rizal believed in achieving change through education, enlightenment, and peaceful reform rather than violent revolution. This approach emphasized the power of ideas over force.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Core Principles</h3>
+                                <p><strong>Education First:</strong> Believed that enlightened citizens were key to lasting change<br>
+                                <strong>Moral Example:</strong> Advocated leading by example rather than forcing change<br>
+                                <strong>International Appeal:</strong> Sought support from the global community<br>
+                                <strong>Legal Channels:</strong> Worked within existing systems to expose and correct injustices</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>The La Liga Filipina</h3>
+                                <p>Rizal founded this organization to unite Filipinos for peaceful reforms including mutual protection, defense against violence and injustice, encouragement of education, agriculture, and commerce, and the study and application of reforms.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Lasting Impact</h3>
+                                <p>Though Rizal was executed before seeing the fruits of his peaceful approach, his philosophy influenced generations of leaders. His belief that "the pen is mightier than the sword" continues to inspire peaceful movements for social change worldwide.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+        }
+
+        function openTimelineDetails(period) {
+            const modal = document.getElementById('abilityModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            let content = '';
+            
+            switch(period) {
+                case 'spawn':
+                    content = `
+                        <h2 class="modal-title">🌟 1861 - The Spawn</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Birth of a Legend</h3>
+                                <p>On June 19, 1861, José Protasio Rizal Mercado y Alonso Realonda was born in Calamba, Laguna. From the very beginning, he showed exceptional intelligence and artistic talents that set him apart from his peers.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Early Abilities Unlocked</h3>
+                                <p><strong>Child Prodigy:</strong> Could read and write at age 3<br>
+                                <strong>Artistic Talent:</strong> Showed exceptional skill in drawing and sculpture<br>
+                                <strong>Academic Excellence:</strong> Consistently topped his classes<br>
+                                <strong>Multilingual:</strong> Started learning multiple languages early</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Family Background</h3>
+                                <p>Born to Francisco Mercado and Teodora Alonso, Rizal came from an educated and affluent family. His mother was his first teacher, and his family's emphasis on education shaped his character from childhood.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Character Development</h3>
+                                <p>Even as a child, Rizal showed compassion for others, love of learning, and a strong sense of justice. These traits would later define his heroic journey and mission for his country.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'quest':
+                    content = `
+                        <h2 class="modal-title">🎓 1882 - European Quest</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Great Journey Begins</h3>
+                                <p>At age 21, Rizal embarked on his European quest for higher education. This journey would transform him from a talented young Filipino into a world-class intellectual and reformist.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Academic Achievements</h3>
+                                <p><strong>Universidad Central de Madrid:</strong> Studied Philosophy, Literature, and Medicine<br>
+                                <strong>Universidad de Paris:</strong> Advanced studies in Ophthalmology<br>
+                                <strong>University of Heidelberg:</strong> Further medical training<br>
+                                <strong>Multiple Degrees:</strong> Became a licensed physician and academic</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Cultural Immersion</h3>
+                                <p>During his European sojourn, Rizal immersed himself in Western culture, literature, and political thought. He frequented museums, theaters, and intellectual circles, broadening his worldview significantly.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>The Awakening</h3>
+                                <p>Europe opened Rizal's eyes to the possibilities of progress and enlightenment. He saw how other nations had developed and began to envision similar progress for the Philippines through education and reform.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'release':
+                    content = `
+                        <h2 class="modal-title">✍️ 1887 - First Epic Release</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Legendary Publication</h3>
+                                <p>In March 1887, Rizal published "Noli Me Tangere" in Berlin, Germany. This novel became his most powerful weapon against colonial oppression and corruption.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Development Process</h3>
+                                <p><strong>Writing Period:</strong> 1884-1887, during his European stay<br>
+                                <strong>Financial Struggle:</strong> Faced difficulties funding the publication<br>
+                                <strong>Friend's Support:</strong> Maximo Viola helped finance the printing<br>
+                                <strong>Strategic Release:</strong> Published abroad to avoid immediate censorship</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Immediate Impact</h3>
+                                <p>The novel caused massive disruption in the Philippine colonial system. Spanish authorities immediately banned it, proving its effectiveness. Filipino readers found themselves awakening to their situation under Spanish rule.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Global Recognition</h3>
+                                <p>The novel gained international attention and was eventually translated into multiple languages. It established Rizal as a significant voice in anti-colonial literature and Philippine nationalism.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'final':
+                    content = `
+                        <h2 class="modal-title">💀 1896 - Final Boss Battle</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Ultimate Sacrifice</h3>
+                                <p>On December 30, 1896, at 7:03 AM, José Rizal was executed by firing squad at Bagumbayan Field (now Rizal Park). His death became the catalyst that sparked the Philippine Revolution.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>The Final Moments</h3>
+                                <p><strong>Last Night:</strong> Wrote his final poem "Mi Último Adiós"<br>
+                                <strong>Final Request:</strong> Asked to face the firing squad (denied)<br>
+                                <strong>Last Words:</strong> "Consummatum est" (It is finished)<br>
+                                <strong>The Signal:</strong> His death ignited the revolution he had tried to prevent</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Revolutionary Trigger</h3>
+                                <p>Rizal's execution outraged Filipinos and provided the emotional catalyst needed for the revolution. Bonifacio and the Katipunan used his martyrdom to rally the people to armed resistance.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Eternal Legacy Buff</h3>
+                                <p>Death transformed Rizal from a reformist into a national hero. His sacrifice gave him immortal status in Philippine history, inspiring countless generations to fight for freedom, justice, and national dignity.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+        }
+
+        function openLegacyDetails(aspect) {
+            const modal = document.getElementById('abilityModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            let content = '';
+            
+            switch(aspect) {
+                case 'education':
+                    content = `
+                        <h2 class="modal-title">📖 Educational Influence</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Foundation of Modern Philippine Education</h3>
+                                <p>Rizal's belief that "the school is the book of the nation" continues to shape Philippine educational philosophy. His emphasis on critical thinking and moral education remains relevant today.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Key Educational Principles</h3>
+                                <p><strong>Holistic Development:</strong> Education should develop both mind and character<br>
+                                <strong>Critical Thinking:</strong> Students should question and analyze, not just memorize<br>
+                                <strong>Practical Application:</strong> Knowledge should serve the community<br>
+                                <strong>Cultural Pride:</strong> Education should foster love of country and heritage</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Modern Manifestations</h3>
+                                <p>Today, countless schools bear Rizal's name. His writings remain mandatory reading in Philippine schools. Educational institutions worldwide study his methods and philosophy as examples of transformative education.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Global Impact</h3>
+                                <p>Rizal's educational philosophy has influenced educators beyond the Philippines. His approach to using education as a tool for social change has been adopted by reformers and educators worldwide.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'identity':
+                    content = `
+                        <h2 class="modal-title">🏛️ National Identity</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Defining Filipino Identity</h3>
+                                <p>Rizal's novels were among the first works to define what it means to be Filipino. He created a shared narrative that unified diverse Philippine ethnic groups under one national identity.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Cultural Renaissance</h3>
+                                <p><strong>Filipino Consciousness:</strong> Awakened pride in Filipino heritage and culture<br>
+                                <strong>Literary Tradition:</strong> Established Filipino literature as a legitimate art form<br>
+                                <strong>Historical Awareness:</strong> Made Filipinos aware of their pre-colonial heritage<br>
+                                <strong>Unity in Diversity:</strong> Created bonds among different Philippine regions</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Contemporary Relevance</h3>
+                                <p>Modern Filipino identity continues to be shaped by Rizal's vision. His concept of the "Filipino" as someone who loves country, values education, and fights for justice remains central to national character.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Global Filipino Diaspora</h3>
+                                <p>Overseas Filipino Workers (OFWs) and immigrants worldwide carry Rizal's vision of Filipino identity. His writings help maintain cultural connections across the global Filipino community.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'justice':
+                    content = `
+                        <h2 class="modal-title">✊ Social Justice</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Eternal Fight Against Oppression</h3>
+                                <p>Rizal's fight against colonial oppression continues to inspire modern movements for human rights, social justice, and equality across the globe. His methods remain relevant for contemporary activists.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Modern Social Justice Movements</h3>
+                                <p><strong>Human Rights:</strong> His advocacy for dignity inspires human rights activists<br>
+                                <strong>Anti-Corruption:</strong> His exposure of corruption remains relevant today<br>
+                                <strong>Educational Equity:</strong> His belief in education for all supports modern movements<br>
+                                <strong>Peaceful Resistance:</strong> His non-violent approach influences civil rights movements</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Contemporary Applications</h3>
+                                <p>Modern activists cite Rizal when fighting corruption, demanding transparency, and advocating for the marginalized. His approach of using art, literature, and education for social change remains powerful.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>International Recognition</h3>
+                                <p>Rizal is studied internationally as an example of effective peaceful resistance. His methods have influenced liberation movements in Africa, Asia, and Latin America, proving the universal appeal of his message.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+        }
+
+        function openVideoDetails(video) {
+            const modal = document.getElementById('abilityModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            let content = '';
+            
+            switch(video) {
+                case 'noli-explained':
+                    content = `
+                        <h2 class="modal-title">📚 Noli Me Tangere Explained</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Documentary Overview</h3>
+                                <p>This comprehensive 15-minute exploration breaks down the complex themes, characters, and historical context of Rizal's groundbreaking novel. Perfect for students and anyone wanting to understand this masterpiece.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>What You'll Learn</h3>
+                                <p><strong>Character Analysis:</strong> Deep dive into Ibarra, Maria Clara, and other key figures<br>
+                                <strong>Historical Context:</strong> The real events that inspired the novel<br>
+                                <strong>Symbolic Meanings:</strong> Hidden messages and allegories within the story<br>
+                                <strong>Impact Assessment:</strong> How the novel changed Philippine society</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Key Scenes Analyzed</h3>
+                                <p>The video examines crucial scenes like the dinner party at Capitan Tiago's house, the church sermon controversy, and the tragic ending. Each scene is broken down for its social and political commentary.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Modern Relevance</h3>
+                                <p>Discover how the themes of corruption, abuse of power, and social inequality in Noli Me Tangere remain relevant to contemporary Philippine and global politics.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'european-adventures':
+                    content = `
+                        <h2 class="modal-title">🌍 Rizal's European Adventures</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Epic Journey Across Europe</h3>
+                                <p>Follow Rizal's transformative 12-minute journey through Europe from 1882-1887. This visual adventure shows how his travels shaped his worldview and influenced his writings.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Countries Visited</h3>
+                                <p><strong>Spain:</strong> Madrid for university studies<br>
+                                <strong>France:</strong> Paris for advanced medical training<br>
+                                <strong>Germany:</strong> Berlin where he wrote Noli Me Tangere<br>
+                                <strong>Other Destinations:</strong> London, Vienna, and multiple cultural centers</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Cultural Immersion</h3>
+                                <p>See how Rizal absorbed European art, literature, and political thought. The video shows actual locations he visited, museums he frequented, and intellectual circles he joined.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Transformation Process</h3>
+                                <p>Watch how a young Filipino student evolved into a world-class intellectual and reformist. His European experience shaped his vision for Philippine progress and modernization.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'final-sacrifice':
+                    content = `
+                        <h2 class="modal-title">💔 The Final Sacrifice</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>The Most Emotional Chapter</h3>
+                                <p>This 18-minute documentary chronicles Rizal's final days, from his arrest to his execution. A deeply moving account of how a hero's death sparked a nation's revolution.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Timeline of Final Days</h3>
+                                <p><strong>December 6, 1896:</strong> Arrival in Manila from Cuba<br>
+                                <strong>December 7-26:</strong> Imprisonment in Fort Santiago<br>
+                                <strong>December 26:</strong> Court martial and death sentence<br>
+                                <strong>December 29:</strong> Final night, writes "Mi Último Adiós"<br>
+                                <strong>December 30:</strong> Execution at Bagumbayan</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>The Last Poem</h3>
+                                <p>Experience the power of "Mi Último Adiós" (My Last Farewell), Rizal's final masterpiece written hours before his death. The poem encapsulates his love for country and his hopes for the future.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Revolutionary Impact</h3>
+                                <p>See how Rizal's execution became the catalyst for the Philippine Revolution. His martyrdom transformed him from reformist to revolutionary symbol, inspiring Bonifacio and the Katipunan.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'legend-legacy':
+                    content = `
+                        <h2 class="modal-title">👑 Legacy of a Legend</h2>
+                        <div class="modal-body">
+                            <div class="modal-section">
+                                <h3>Immortal Impact</h3>
+                                <p>This 20-minute finale explores how Rizal's influence extends far beyond his death. From Philippine independence to modern social movements, his legacy continues to shape history.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Continuing Influence</h3>
+                                <p><strong>Educational System:</strong> Rizal courses mandatory in Philippine schools<br>
+                                <strong>Cultural Identity:</strong> His vision of Filipino identity remains central<br>
+                                <strong>Social Justice:</strong> Modern activists invoke his methods and principles<br>
+                                <strong>International Recognition:</strong> Studied worldwide as model of peaceful resistance</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Modern Manifestations</h3>
+                                <p>Discover how Rizal's principles appear in contemporary Philippine politics, education reform, and social movements. See interviews with modern leaders who draw inspiration from his example.</p>
+                            </div>
+                            <div class="modal-section">
+                                <h3>Global Relevance</h3>
+                                <p>Learn how Rizal's story resonates with liberation movements worldwide. His approach to fighting oppression through education and peaceful reform continues to inspire activists globally.</p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('abilityModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('abilityModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Update sidebar icons
+            const icons = document.querySelectorAll('.sidebar-icon');
+            icons.forEach(icon => {
+                icon.style.background = 'rgba(200, 170, 110, 0.2)';
+            });
+            event.target.style.background = 'rgba(200, 170, 110, 0.4)';
+        }
+
+        function startJourney() {
+            alert('Welcome to Rizal\'s Epic Journey! 🇵🇭\n\nExplore the sidebar to discover:\n• His legendary abilities\n• Epic timeline of events\n• Lasting legacy\n• Gallery of memories\n\nStart your adventure now!');
+        }
+
+        // Add some interactive effects
+        document.addEventListener('mousemove', function(e) {
+            const cursor = {
+                x: e.clientX / window.innerWidth,
+                y: e.clientY / window.innerHeight
+            };
+
+            const overlay = document.querySelector('.background-overlay');
+            overlay.style.background = `
+                radial-gradient(circle at ${cursor.x * 100}% ${cursor.y * 100}%, rgba(200, 170, 110, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at ${(1-cursor.x) * 100}% ${(1-cursor.y) * 100}%, rgba(100, 150, 200, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(10, 20, 40, 0.9) 0%, rgba(30, 35, 40, 0.8) 100%)
+            `;
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            switch(e.key) {
+                case '1':
+                    showSection('overview');
+                    break;
+                case '2':
+                    showSection('abilities');
+                    break;
+                case '3':
+                    showSection('timeline');
+                    break;
+                case '4':
+                    showSection('legacy');
+                    break;
+                case '5':
+                    showSection('gallery');
+                    break;
+                case 'Enter':
+                    startJourney();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
